@@ -33,7 +33,12 @@ export function buildRegionPolygon(kind, geo) {
       const buffered = turf.buffer(turf.multiLineString(lines), ROAD_HALF_WIDTH_M / 1000)
       return { polygon: buffered.geometry, note: null }
     }
-    throw new Error('도로 선 좌표를 받지 못했습니다')
+    // 네이버 지도에 선 정보가 없는 도로가 있다 (예: 여러 지역의 "중앙로")
+    if (isLngLat(geo.center)) {
+      const circle = turf.circle(geo.center, POI_RADIUS_M / 1000, { steps: 48 })
+      return { polygon: circle.geometry, note: `도로 선을 받지 못해 중심 반경 ${POI_RADIUS_M}m 원으로 대체` }
+    }
+    throw new Error('도로 선과 중심 좌표를 모두 받지 못했습니다')
   }
 
   // poi

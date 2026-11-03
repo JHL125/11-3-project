@@ -186,7 +186,7 @@ export default function App() {
             <b>{region.name}</b> ({KIND_LABEL[region.kind]}
             {region.keyword && ` · ${region.keyword}`}){' '}
             {region.status === 'done'
-              ? `— 업장 ${restaurants.length}곳 · 비플페이 가능 ${yesCount}곳`
+              ? `— 업장 ${restaurants.length}곳 · 비플페이 가능 ${yesCount}곳${region.error ? ` (${region.error})` : ''}`
               : `— ${STATUS_LABEL[region.status]}${region.error ? `: ${region.error}` : ''}`}
           </span>
         )}
