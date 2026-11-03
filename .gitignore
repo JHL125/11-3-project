@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.vercel/
+
+# 키 파일 — 어느 폴더에 있든 .env 로 시작하는 파일은 올리지 않는다. 빈 예시 파일만 허용
+.env*
+!.env.example
+
+collector/out/

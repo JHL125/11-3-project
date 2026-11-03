@@ -1,0 +1,13 @@
+{
+  "name": "bipl-collector",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file=.env worker.mjs",
+    "once": "node --env-file=.env worker.mjs --once"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "@turf/turf": "^7.1.0"
+  }
+}

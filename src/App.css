@@ -1,0 +1,92 @@
+:root {
+  --neon-pink: #ff10f0;
+  --gray: #9a9a9a;
+  --ink: #1f2328;
+  --line: #d0d7de;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  color: var(--ink);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+
+.app { display: flex; flex-direction: column; height: 100%; position: relative; }
+
+.bar { padding: 12px 16px 8px; border-bottom: 1px solid var(--line); background: #fff; }
+.bar h1 { font-size: 18px; margin: 0 0 8px; }
+
+.search { display: flex; gap: 8px; }
+.search input {
+  flex: 1; min-width: 0; padding: 10px 12px; font-size: 15px;
+  border: 1px solid var(--line); border-radius: 8px;
+}
+.search button {
+  padding: 0 16px; font-size: 15px; border: 0; border-radius: 8px;
+  background: var(--ink); color: #fff; cursor: pointer; white-space: nowrap;
+}
+.search button:disabled { opacity: 0.6; cursor: wait; }
+
+.chips { display: flex; gap: 6px; overflow-x: auto; margin-top: 8px; padding-bottom: 2px; }
+.chip {
+  flex: none; padding: 4px 10px; font-size: 13px; border-radius: 999px;
+  border: 1px solid var(--line); background: #fff; cursor: pointer;
+}
+.chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.status-line { padding: 6px 16px; font-size: 13px; background: #f6f8fa; border-bottom: 1px solid var(--line); }
+.status-line .error { color: #cf222e; }
+
+.map { flex: 1; min-height: 0; }
+/* OSM 지도는 색이 많아 마커가 묻히므로 배경 채도를 낮춘다 */
+.map .leaflet-tile-pane { filter: saturate(0.35) brightness(1.05); }
+
+/* 마커 — 미확인: 색 없음(흰 바탕, 어두운 테두리) */
+.pin {
+  display: inline-block; width: 14px; height: 14px; border-radius: 50%;
+  background: #fff; border: 2px solid #333;
+  box-shadow: 0 0 0 1px #fff;
+}
+/* 불가능: 회색 */
+.pin.pin-no { background: var(--gray); border-color: #444; }
+/* 가능: 형광 핑크 테두리가 깜빡인다 */
+.pin.pin-yes {
+  width: 18px; height: 18px; background: #fff;
+  border: 4px solid var(--neon-pink);
+  box-shadow: 0 0 8px 3px var(--neon-pink);
+  animation: neon-blink 1s steps(1, end) infinite;
+}
+@keyframes neon-blink {
+  /* 꺼진 순간에도 미확인 마커와 구분되도록 옅은 핑크를 남긴다 */
+  50% { border-color: rgba(255, 16, 240, 0.25); box-shadow: none; }
+}
+/* 움직임 줄이기 설정 사용자에게는 깜빡임 대신 고정 빛번짐 */
+@media (prefers-reduced-motion: reduce) {
+  .pin.pin-yes { animation: none; }
+}
+
+.popup { display: flex; flex-direction: column; gap: 2px; min-width: 220px; }
+.popup strong { font-size: 15px; }
+.popup-meta { font-size: 12px; color: #57606a; }
+.popup-buttons { display: flex; gap: 6px; margin-top: 8px; }
+.vote {
+  flex: 1; padding: 8px 6px; font-size: 13px; border-radius: 6px; cursor: pointer; white-space: nowrap;
+  border: 1.5px solid var(--line); background: #fff;
+}
+.vote-yes.active { border-color: var(--neon-pink); background: #ffe3fd; font-weight: 700; }
+.vote-no.active { border-color: #6e6e6e; background: #e6e6e6; font-weight: 700; }
+.vote:disabled { opacity: 0.5; cursor: wait; }
+
+.legend {
+  position: absolute; right: 12px; bottom: 24px; z-index: 1000;
+  display: flex; gap: 12px; padding: 6px 10px; font-size: 12px;
+  background: rgba(255, 255, 255, 0.95); border: 1px solid var(--line); border-radius: 8px;
+}
+.legend span { display: flex; align-items: center; gap: 5px; }
+.legend .pin.pin-yes { width: 14px; height: 14px; border-width: 3px; }
+
+.setup { max-width: 560px; margin: 60px auto; padding: 0 16px; line-height: 1.6; }
+
+@media (max-width: 600px) {
+  .bar h1 { font-size: 16px; }
+  .search button { padding: 0 12px; }
+}
